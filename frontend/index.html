@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Verify - Подтверждение номера телефона</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>📱 Phone Verify</h1>
+        <p>Простая система подтверждения номера телефона через QR-код</p>
+    </header>
+
+    <main>
+        <!-- Шаг 1: Ввод номера -->
+        <div class="step active" id="step1">
+            <div class="step-header">
+                <span class="step-number">1</span>
+                <h2>Введите номер телефона</h2>
+            </div>
+
+            <div class="step-content">
+                <div class="input-group">
+                    <label for="phoneInput">Номер телефона:</label>
+                    <input type="tel" id="phoneInput" placeholder="+1 234 567 8900" maxlength="20">
+                    <small>Любой международный номер (8-15 цифр)</small>
+                </div>
+
+                <button class="btn-primary" onclick="generateQRCode()" id="generateBtn">
+                    Создать QR-код
+                </button>
+            </div>
+        </div>
+
+        <!-- Шаг 2: Показ QR-кода -->
+        <div class="step" id="step2">
+            <div class="step-header">
+                <span class="step-number">2</span>
+                <h2>Покажите QR-код</h2>
+            </div>
+
+            <div class="step-content">
+                <div class="qr-section">
+                    <div class="qr-container">
+                        <img id="qrImage" alt="QR Code">
+                    </div>
+
+                    <div class="session-info">
+                        <h3>Информация о сессии:</h3>
+                        <p><strong>Номер:</strong> <span id="phoneDisplay">-</span></p>
+                        <p><strong>ID сессии:</strong> <span id="sessionDisplay">-</span></p>
+                        <p><strong>Действует:</strong> <span id="expiryDisplay">-</span></p>
+                    </div>
+                </div>
+
+                <div class="status-container">
+                    <div id="statusMessage" class="status-pending">
+                        ⏳ Ожидание сканирования...
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn-secondary" onclick="resetToStep1()">
+                        Ввести другой номер
+                    </button>
+                    <button class="btn-primary" onclick="startQRScanning()">
+                        Сканировать QR-код
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Шаг 3: Сканирование -->
+        <div class="step" id="step3">
+            <div class="step-header">
+                <span class="step-number">3</span>
+                <h2>Сканирование QR-кода</h2>
+            </div>
+
+            <div class="step-content">
+                <div class="scan-section">
+                    <div class="camera-container">
+                        <video id="video" playsinline></video>
+                        <div class="camera-overlay">
+                            <div class="scan-frame"></div>
+                            <p>Наведите камеру на QR-код</p>
+                        </div>
+                    </div>
+
+                    <div id="scanResult"></div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn-secondary" onclick="stopCameraAndReturn()">
+                        Назад
+                    </button>
+                    <button class="btn-primary" onclick="toggleCamera()" id="cameraToggle">
+                        Выключить камеру
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Результат -->
+        <div class="result-section hidden" id="resultSection">
+            <div class="result-card success" id="resultCard">
+                <div class="result-icon">✅</div>
+                <h2>Номер подтвержден!</h2>
+                <p id="resultPhone"></p>
+                <p id="resultMessage"></p>
+                <button class="btn-primary" onclick="location.reload()">
+                    Начать заново
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Phone Verify System &copy; 2024</p>
+    </footer>
+</div>
+
+<!-- Подключаем библиотеку для сканирования QR-кодов -->
+<script src="https://unpkg.com/jsQR@1.4.0/dist/jsQR.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
